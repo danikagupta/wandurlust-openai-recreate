@@ -6,9 +6,9 @@ import random
 import json
 import time
 
-st.set_page_config(page_title="Wanderlust Recreate",page_icon=" 🗺️",layout="wide",initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Wanderlust Recreate",page_icon=" 🗺️",layout="wide")
 
-st.title("Wanderlust OpenAI Recreate")
+st.title("Wanderlust Demo (Streamlit's version)")
 
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
@@ -69,8 +69,8 @@ with right_col:
                 lat=st.session_state[markers_state]["lat"],
                 lon=st.session_state[markers_state]["lon"],
                 marker=go.scattermapbox.Marker(
-                    size=12,
-                    color="rgb(128, 128, 0)",
+                    size=18,
+                    color="rgb(0, 128, 255)",
                     opacity=0.7
                 ),
                 text=st.session_state[markers_state]["text"],
@@ -173,4 +173,4 @@ def on_text_input():
     return
 
 
-st.chat_input(placeholder="Type a message...",key="input_user_msg", on_submit=on_text_input)
+st.chat_input(placeholder="Where do you want to go today?",key="input_user_msg", on_submit=on_text_input)
