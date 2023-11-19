@@ -24,16 +24,19 @@ markers_state = "markers"
 user_msg_input_key = "input_user_msg"
 
 
-
 if "map" not in st.session_state:
     st.session_state["map"] = {
-        "latitude": 45,
-        "longitude": -73,
-        "zoom": 16,
+        "latitude": 37.38875850950195,
+        "longitude": -121.97601068975905,
+        "zoom": 12,
     }
 
 if markers_state not in st.session_state:
-    st.session_state[markers_state] = None
+    st.session_state["markers"] = {
+        "lat": [37.38875850950195],
+        "lon": [-121.97601068975905],
+        "text": ["WYKYK"],
+    }
 
 if "conversation" not in st.session_state:
     st.session_state["conversation"] = []
@@ -54,7 +57,6 @@ right_col=st.sidebar
 left_col,blank_col=st.columns([10,1])
 
 with left_col:
-    st.subheader("Conversation")
     for role,message in reversed(st.session_state["conversation"]):
         with st.chat_message(role):
             st.markdown(message)
