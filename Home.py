@@ -5,6 +5,7 @@ from openai import OpenAI
 import random
 import json
 import time
+import datetime
 
 st.set_page_config(page_title="Wanderlust Recreate",page_icon=" 🗺️",layout="wide")
 
@@ -52,6 +53,29 @@ if (assistant_state not in st.session_state) or (thread_state not in st.session_
 
 
 #left_col,right_col=st.columns(2)
+
+css='''
+<style>
+    section.main>div {
+        padding-bottom: 1rem;
+    }
+    [data-testid="column"]>div>div>div>div>div {
+        overflow: auto;
+        height: 70vh;
+    }
+</style>
+'''
+
+st.markdown(css, unsafe_allow_html=True)
+
+st.markdown("""<style>
+        section[data-testid="stSidebarContent"] {
+            width: 500px !important; # Set the width to your desired value
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
 right_col=st.sidebar
 left_col,blank_col=st.columns([10,1])
@@ -110,8 +134,6 @@ def update_map_state(latitude,longitude,zoom):
     return "Map updated"
 
 def add_markers_state(latitudes, longitudes, labels):
-    """OpenAI tool to update markers in-app
-    """
     st.session_state["markers"] = {
         "lat": latitudes,
         "lon": longitudes,
@@ -137,6 +159,7 @@ def on_text_input():
     )
     completed=False
     while not completed:
+        print(f"In while loop at {datetime.datetime.now()}")
         run=client.beta.threads.runs.retrieve(
             thread_id=st.session_state["thread"].id,
             run_id=st.session_state["run"].id,
@@ -166,6 +189,7 @@ def on_text_input():
                 tool_outputs=tools_output,
             )
         else:
+            print(f"Run status = {run.status} at {datetime.datetime.now()}")
             time.sleep(0.3)
     
     st.session_state["conversation"] = [
